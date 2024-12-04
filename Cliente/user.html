@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAS</title>
+    <link rel="stylesheet" href="./src/css/bootstrap.min.css">
+</head>
+
+<body class=" bg-dark">
+    <img src="src/assets/philipp-upR8raSXvwg-unsplash.jpg" alt="" class="bg_navbar img-fluid">
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Gestion de usuarios</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/article.html">Gestion de articulos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Gestion de almacenes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Gestion de categorias</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="m-5">
+        <section class="d-flex align-items-center">
+            <h3 class="m-0 text-light">Gestión de articulos</h3>
+            <button class="btn btn-outline-light ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadAllData()">Registrar Nuevo Usuario</button>
+        </section>
+        <hr>
+        <section class="table_bg">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="table-dark">
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Rol</th>
+                            <th scope="col">Almacen</th>
+                            <th scope="col" class="text-center">#</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de registro -->
+    <div class="modal fade" id="saveModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Nuevo Usuario</h4>
+                    <hr>
+                    <form id="saveForm" class="row g-3">
+                        <div class="col-12">
+                            <label for="fullName"><small>Nombre completo</small></label>
+                            <input type="text" id="fullName" name="fullName" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="eMail"><small>Correo</small></label>
+                            <input type="text" id="eMail" name="eMail" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="password"><small>Contraseña</small></label>
+                            <input type="password" id="password" name="password" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="user"><small>Username</small></label>
+                            <input type="text" id="user" name="user" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="storages"><small>Almacen</small></label>
+                            <select name="storages" id="storages" class="form-select">
+                                
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="rol"><small>Rol</small></label>
+                            <select name="rol" id="rol" class="form-select">
+                                
+                            </select>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="reset" data-bs-dismiss="modal" class="btn btn-outline-secondary">Cerrar</button>
+                            <button type="button" data-bs-dismiss="modal" onclick="save()" class="btn btn-outline-success ms-2">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de actualización -->
+    <div class="modal fade" id="updateModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Actualizar datos del empleado</h4>
+                    <hr>
+                    <form id="updateForm" class="row g-3">
+                        <div class="col-12">
+                            <label for="u_fullName"><small>Nombre completo</small></label>
+                            <input type="text" id="u_fullName" name="u_fullName" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="u_eMail"><small>Correo</small></label>
+                            <input type="text" id="u_eMail" name="u_eMail" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="u_password"><small>Contraseña</small></label>
+                            <input type="text" id="u_password" name="u_password" class="form-control">
+                        </div>
+                    
+                        <div class="col-12">
+                            <label for="u_user"><small>Username</small></label>
+                            <input type="text" id="u_user" name="u_user" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="u_storages"><small>Almacen</small></label>
+                            <select name="u_storages" id="u_storages" class="form-select">
+                                
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="u_rol"><small>Rol</small></label>
+                            <select name="u_rol" id="u_rol" class="form-select">
+                                
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 text-end">
+                            <button type="reset" data-bs-dismiss="modal" class="btn btn-outline-secondary">Cerrar</button>
+                            <button type="button" data-bs-dismiss="modal" onclick="update()" class="btn btn-outline-primary ms-2">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de eliminación -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>AVISO</h4>
+                    <hr>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <p>¿Está seguro de que quiere realizar esta operación? <span class="fw-bold">Esta acción es irreversible.</span></p>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="button" data-bs-dismiss="modal" onclick="remove()" class="btn btn-outline-danger">Eliminar</button>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary ms-2">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/js/user.js"></script>
+    <script src="./src/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
