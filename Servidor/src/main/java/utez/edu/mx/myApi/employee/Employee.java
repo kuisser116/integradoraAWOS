@@ -15,7 +15,7 @@ public class Employee {
     @Column(name = "user", nullable = false)
     private String user;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = true)
     private String password;
 
     @Column(name = "full_name", nullable = false)

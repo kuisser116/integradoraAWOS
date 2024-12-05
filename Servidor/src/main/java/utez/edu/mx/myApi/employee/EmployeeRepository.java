@@ -16,4 +16,22 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Modifying
     @Query(value = "DELETE FROM employee WHERE id = :id", nativeQuery = true)
     void deleteById(@Param("id") long id);
+
+    // Buscar usuario por usuario/correo y contraseña
+    @Query(value = "SELECT * FROM employee " +
+            "WHERE password = :password " +
+            "AND (e_mail = :username OR user = :username);",
+            nativeQuery = true)
+    Employee findByPasswordAndEmailOrUsername(
+            @Param("password") String password,
+            @Param("username") String username
+    );
+
+    /*// Buscar usuario por nombre de usuario
+    User findByUsername(String username);*/
+
+    @Query(value = "SELECT * FROM employee WHERE user = :username OR e_mail = :username", nativeQuery = true)
+    Employee findByUser(@Param("username") String username);
+
+
 }

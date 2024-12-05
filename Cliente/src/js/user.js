@@ -150,6 +150,8 @@ const save = async () => {
     }).catch(console.log);
 }
 
+
+
 // FIND BY ID
 
 const findById = async id => {
@@ -167,6 +169,8 @@ const findById = async id => {
 
 // UPDATE
 
+
+
 const setDataOnForm = async id => {
     await findById(id);
     await loadData(false);
@@ -175,9 +179,9 @@ const setDataOnForm = async id => {
 
     document.getElementById('u_fullName').value = users.fullName;
     document.getElementById('u_eMail').value = users.eMail;
-    document.getElementById('u_password').value = users.password;
+  document.getElementById('password').value = users.password;
     document.getElementById('u_user').value = users.user;
-    document.getElementById('u_storages').value = users.department.id; // Asegúrate de que esto esté configurado
+    document.getElementById('u_storages').value = users.department.id; 
     document.getElementById('u_rol').value = users.rol.id; 
 
 }
@@ -188,7 +192,8 @@ const update = async () => {
         fullName: document.getElementById('u_fullName').value,
         eMail: document.getElementById('u_eMail').value,
         user: document.getElementById('u_user').value,
-        //password: document.getElementById('u_password').value,
+       
+       password: document.getElementById('password').value,
         department: {
             id: document.getElementById('u_storages').value
         },
@@ -197,6 +202,7 @@ const update = async () => {
         }
        
     };
+
 
     await fetch(`${URL}/api/employee/${users.id}`, {
         method: 'PUT',
