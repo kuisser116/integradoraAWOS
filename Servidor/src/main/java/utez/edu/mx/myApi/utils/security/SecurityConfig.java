@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf(csrf -> csrf.disable()).authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/**").hasAnyRole("ADMIN", "EMPLOYEE", "CUSTOMER")
+                .requestMatchers("/api/**").hasAnyRole("ADMIN", "RESPONSABLE", "CUSTOMER")
                 .anyRequest().authenticated()
         ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
