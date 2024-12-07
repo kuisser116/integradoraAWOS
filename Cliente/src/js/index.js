@@ -14,43 +14,86 @@ const authenticate = async (username, password) => {
         });
 
         if (!response.ok) {
-            throw new Error('Usuario o contraseña incorrectos'); // Error personalizado
+            throw new Error('Usuario o contraseña incorrectos');
         }
 
         const data = await response.json();
         localStorage.setItem('token', data.data); // Guarda el token
-        return true; // Indica éxito
+        return true;
     } catch (error) {
         console.error('Error en la autenticación:', error.message);
-        return false; // Indica fallo
+        return false;
+    }
+};
+
+// Función para obtener el rol del usuario
+const getUserRole = async (username) => {
+    try {
+        const response = await fetch(`${URL}/api/employee/${username}/role`, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('No se pudo obtener el rol del usuario');
+        }
+
+        const data = await response.json();
+        console.log('Respuesta del servidor:', data);
+        console.log('Rol del usuario:', data.name);
+        return data.name; // Devuelve el rol (nombre del rol)
+        
+    } catch (error) {
+        console.error('Error al obtener el rol del usuario:', error.message);
+        return null;
     }
 };
 
 // Función para manejar el evento de envío del formulario
 const Login = async (event) => {
-    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    event.preventDefault();
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const loginMessage = document.getElementById('loginMessage'); // Obtener el elemento del mensaje
+    const loginMessage = document.getElementById('loginMessage');
 
-    // Limpiar mensajes previos
     loginMessage.textContent = '';
     loginMessage.classList.remove('text-danger', 'text-success');
 
-    // Llamar a la función de autenticación
     const isAuthenticated = await authenticate(username, password);
 
     if (isAuthenticated) {
-        // Mostrar mensaje de éxito y redirigir
-        loginMessage.textContent = 'Inicio de sesión exitoso. Redirigiendo...';
+        loginMessage.textContent = 'Inicio de sesión exitoso';
         loginMessage.classList.add('text-success');
 
-        setTimeout(() => {
-            window.location.href = '../../article.html'; // Cambia esto a la URL de tu página destino
-        }, 2000);
+        const userRole = await getUserRole(username);
+
+        if (userRole) {
+            console.log('Redirigiendo según el rol:', userRole);
+
+            setTimeout(() => {
+                switch (userRole) {
+                    case 'ROLE_ADMIN':
+                        window.location.href = '../../article.html';
+                        break;
+                    case 'ROLE_RESPONSABLE':
+                        window.location.href = '../../article_user.html';
+                        break;
+                    case 'ROLE_USUARIO':
+                        window.location.href = '../../usuario.html';
+                        break;
+                    default:
+                        alert('Rol no reconocido');
+                        console.error('Rol no reconocido');
+                        break;
+                }
+            }, 1000);
+        } else {
+            alert('No se pudo determinar el rol del usuario');
+        }
     } else {
-        // Mostrar mensaje de error
         loginMessage.textContent = 'Usuario o contraseña incorrectos. Intenta de nuevo.';
         loginMessage.classList.add('text-danger');
     }

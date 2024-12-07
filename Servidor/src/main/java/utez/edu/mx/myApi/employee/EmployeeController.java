@@ -3,6 +3,7 @@ package utez.edu.mx.myApi.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import utez.edu.mx.myApi.rol.Rol;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -19,6 +20,20 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") long id) {
         return employeeService.findById(id);
+    }
+
+    @GetMapping("/{username}/role")
+    public ResponseEntity<?> getUserRole(@PathVariable("username") String username) {
+        try {
+            Rol role = employeeService.findUserRoleByUsername(username);
+            if (role != null) {
+                return ResponseEntity.ok(role);
+            } else {
+                return ResponseEntity.status(404).body("Usuario no encontrado o rol no asignado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno del servidor");
+        }
     }
 
 

@@ -5,11 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import utez.edu.mx.myApi.rol.Rol;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -113,4 +115,20 @@ public class EmployeeService {
 
         return new ResponseEntity<>(body, status);
     }
+
+    public Rol findUserRoleByUsername(String username) {
+        // Buscar empleado por usuario
+        Optional<Employee> employeeOptional = employeeRepository.findRolByUser(username);
+
+        // Si el empleado existe, devolver su rol
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            return employee.getRol();
+        }
+
+        // Si no se encuentra, retornar null
+        return null;
+    }
+
+
 }

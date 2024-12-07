@@ -21,6 +21,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Optional<Employee> findByeMail(String eMail);
 
+    Optional<Employee> findRolByUser(String user);
+
 
 
     // Buscar usuario por usuario/correo y contraseña

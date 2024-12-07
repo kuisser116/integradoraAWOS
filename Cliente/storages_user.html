@@ -13,21 +13,19 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestion de usuarios</a>
+            <a class="navbar-brand" href="#">Gestion de almacenes</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                   
                     <li class="nav-item">
-                        <a class="nav-link active" href="/article.html">Gestion de articulos</a>
+                        <a class="nav-link" href="/article_user.html">Gestion de articulos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/storages.html">Gestion de almacenes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/category.html">Gestion de categorias</a>
+                        <a class="nav-link" href="/category_user.html">Gestion de categorias</a>
                     </li>
                 
                 </ul>
@@ -39,8 +37,8 @@
     </nav>
     <main class="m-5">
         <section class="d-flex align-items-center">
-            <h3 class="m-0 text-light">Gestión de usuarios</h3>
-            <button class="btn btn-outline-light ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadAllData()">Registrar Nuevo Usuario</button>
+            <h3 class="m-0 text-light">Gestión de almacenes</h3>
+            <button class="btn btn-outline-light ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadData(true)">Registrar Nuevo Almacen</button>
         </section>
         <hr>
         <section class="table_bg">
@@ -49,11 +47,8 @@
                     <thead>
                         <tr class="table-dark">
                             <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Rol</th>
-                            <th scope="col">Almacen</th>
+                            <th scope="col">Identificador del almacen</th>
+                            <th scope="col">categoria</th>
                             <th scope="col" class="text-center">#</th>
                         </tr>
                     </thead>
@@ -70,34 +65,17 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h4>Nuevo Usuario</h4>
+                    <h4>Nuevo Articulo</h4>
                     <hr>
                     <form id="saveForm" class="row g-3">
                         <div class="col-12">
-                            <label for="fullName"><small>Nombre completo</small></label>
+                            <label for="fullName"><small>Identiicador del almacen</small></label>
                             <input type="text" id="fullName" name="fullName" class="form-control">
                         </div>
+              
                         <div class="col-12">
-                            <label for="eMail"><small>Correo</small></label>
-                            <input type="text" id="eMail" name="eMail" class="form-control">
-                        </div>
-                        <div class="col-12">
-                            <label for="password"><small>Contraseña</small></label>
-                            <input type="password" id="password" name="password" class="form-control">
-                        </div>
-                        <div class="col-12">
-                            <label for="user"><small>Username</small></label>
-                            <input type="text" id="user" name="user" class="form-control">
-                        </div>
-                        <div class="col-12">
-                            <label for="storages"><small>Almacen</small></label>
-                            <select name="storages" id="storages" class="form-select">
-                                
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label for="rol"><small>Rol</small></label>
-                            <select name="rol" id="rol" class="form-select">
+                            <label for="categories"><small>Categoria</small></label>
+                            <select name="categories" id="categories" class="form-select">
                                 
                             </select>
                         </div>
@@ -116,37 +94,20 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h4>Actualizar datos del empleado</h4>
+                    <h4>Actualizar datos del almacen</h4>
                     <hr>
                     <form id="updateForm" class="row g-3">
                         <div class="col-12">
-                            <label for="u_fullName"><small>Nombre completo</small></label>
+                            <label for="u_fullName"><small>Identificador del almacen</small></label>
                             <input type="text" id="u_fullName" name="u_fullName" class="form-control">
                         </div>
+                       
                         <div class="col-12">
-                            <label for="u_eMail"><small>Correo</small></label>
-                            <input type="text" id="u_eMail" name="u_eMail" class="form-control">
-                        </div>
-                      
-                    
-                        <div class="col-12">
-                            <label for="u_user"><small>Username</small></label>
-                            <input type="text" id="u_user" name="u_user" class="form-control">
-                        </div>
-                        <div class="col-12">
-                            <label for="u_storages"><small>Almacen</small></label>
-                            <select name="u_storages" id="u_storages" class="form-select">
+                            <label for="u_categories"><small>Categoria</small></label>
+                            <select name="u_categories" id="u_categories" class="form-select">
                                 
                             </select>
                         </div>
-                        
-                        <div class="col-12">
-                            <label for="u_rol"><small>Rol</small></label>
-                            <select name="u_rol" id="u_rol" class="form-select">
-                                
-                            </select>
-                        </div>
-                        
                         <div class="col-12 text-end">
                             <button type="reset" data-bs-dismiss="modal" class="btn btn-outline-secondary">Cerrar</button>
                             <button type="button" data-bs-dismiss="modal" onclick="update()" class="btn btn-outline-primary ms-2">Actualizar</button>
@@ -178,7 +139,7 @@
         </div>
     </div>
 
-    <script src="./src/js/user.js"></script>
+    <script src="./src/js/storages.js"></script>
     <script src="./src/js/bootstrap.bundle.min.js"></script>
 </body>
 
