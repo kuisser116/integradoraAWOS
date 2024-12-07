@@ -1,21 +1,35 @@
-const URL = 'http://localhost:8080';
+const setEmail = async () => {
+    const emailInput = document.getElementById("email").value;
 
+    if (!emailInput) {
+        console.error("Por favor ingresa un correo.");
+        return;
+    }
 
-// OBTENER USUARIOS
+    try {
+        const response = await fetch('http://localhost:8080/api/email/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: emailInput })
+        });
 
-const findAllUser = async () => {
-    const token = localStorage.getItem('token');
-    await fetch(`${URL}/api/employee`, {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": `Bearer ${token}`
+        if (response.ok) {
+            // Mostrar el modal con Bootstrap
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+              // Redirigir al cerrar el modal
+              document.getElementById('successModal').addEventListener('hidden.bs.modal', () => {
+                window.location.href = "index.html";
+            });
+            
+            console.log(`Correo enviado exitosamente a: ${emailInput}`);
+        } else {
+            console.error('Error al enviar el correo.');
         }
-    }).then(response => response.json()).then(response => {
-        console.log(response);
-        users = response.data; 
-    }).catch(console.log);
+    } catch (error) {
+        console.error('Error de conexión:', error);
+    }
 };
-
-

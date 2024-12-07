@@ -18,6 +18,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query(value = "DELETE FROM employee WHERE id = :id", nativeQuery = true)
     void deleteById(@Param("id") long id);
 
+
+    Optional<Employee> findByeMail(String eMail);
+
+
+
     // Buscar usuario por usuario/correo y contraseña
     @Query(value = "SELECT * FROM employee " +
             "WHERE password = :password " +

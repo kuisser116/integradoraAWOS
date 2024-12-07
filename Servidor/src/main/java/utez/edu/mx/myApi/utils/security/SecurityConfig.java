@@ -26,7 +26,7 @@ public class SecurityConfig {
         http.cors().and().csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/auth/**").permitAll() // Permite acceso a cualquier ruta de autenticación
-                        .requestMatchers("/api/employee/email", "/api/password-reset").permitAll() // Permite acceso libre
+                        .requestMatchers("/api/email/send").permitAll() // Permite acceso libre
                         .requestMatchers("/api/**").hasAnyRole("ADMIN", "RESPONSABLE", "CUSTOMER") // Protege otras rutas con roles
                         .anyRequest().authenticated()
                 )
