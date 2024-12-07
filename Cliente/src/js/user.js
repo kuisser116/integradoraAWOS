@@ -1,34 +1,18 @@
+if (!localStorage.getItem('token')) {
+    window.location.href = 'index.html'; // Redirigir al login si no hay token
+}
+
+const logout = () => {
+    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+    window.location.href = 'index.html'; // Redirige al login
+};
+
+
+
 const URL = 'http://localhost:8080';
 let storage = [];
 let users = [];
 let rol = [];
-
-//OBTENER TOKEN
-
-
-
-const authenticate = async (username, password) => {
-        const response = await fetch('http://localhost:8080/auth', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",  // Indica que el cuerpo es JSON
-                "Accept": "application/json"         // Espera una respuesta JSON
-            },
-            body: JSON.stringify({
-                user: username,                      // Usuario
-                password: password                   // Contraseña
-            })
-        }).then(response => response.json()).then(response => {
-            console.log(response);
-            localStorage.setItem('token', response.data); 
-        }).catch(console.log);
-    }
-
-
-// Llamar a la función con las credenciales del usuario
-authenticate('kuki', '116');
-
-
 
 
 
@@ -278,7 +262,7 @@ const remove = async () => {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": `Bearer ${token}`
+                        "Authorization": `Bearer ${token}`
 
         }
     }).then(response => response.json()).then(async response => {

@@ -1,3 +1,12 @@
+if (!localStorage.getItem('token')) {
+    window.location.href = 'index.html'; // Redirigir al login si no hay token
+}
+
+const logout = () => {
+    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+    window.location.href = 'index.html'; // Redirige al login
+};
+
 const URL = 'http://localhost:8080';
 let departments = [];
 let categories = [];
@@ -7,18 +16,25 @@ let employee = {};
 
 // OBTENER CATEGORIAS
 
+
+
+
 const findAllCategories = async () => {
+    const token = localStorage.getItem('token');
     await fetch(`${URL}/api/category`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+
         }
     }).then(response => response.json()).then(response => {
         console.log(response);
         categories = response.data; 
     }).catch(console.log);
 };
+
 
 
 const loadData = async flag => {
@@ -35,11 +51,15 @@ const loadData = async flag => {
 // OBTENER A LOS USUARIOS
 
 const findAllEmployees = async () => {
+    const token = localStorage.getItem('token');
+
     await fetch(`${URL}/api/employee`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+
         }
     }).then(response => response.json()).then(response => {
         console.log(response);
@@ -51,11 +71,15 @@ const findAllEmployees = async () => {
 
 
 const findAllArticles = async () => {
+    const token = localStorage.getItem('token');
+
     await fetch(`${URL}/api/article`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+
         }
     }).then(response => response.json()).then(response => {
         console.log(response);
@@ -104,11 +128,15 @@ const save = async () => {
         }
     };
 
+    const token = localStorage.getItem('token');
+
     await fetch(`${URL}/api/article`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+
         },
         body: JSON.stringify(article)
     }).then(response => response.json()).then(async response => {
@@ -122,11 +150,15 @@ const save = async () => {
 // FIND BY ID
 
 const findById = async id => {
+    const token = localStorage.getItem('token');
+
     await fetch(`${URL}/api/article/${id}`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+
         }
     }).then(response => response.json()).then(response => {
         console.log(response);
@@ -154,12 +186,16 @@ const update = async () => {
             id: document.getElementById('u_departments').value
         }
     };
+    const token = localStorage.getItem('token');
+
 
     await fetch(`${URL}/api/article/${articles.id}`, {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+
         },
         body: JSON.stringify(updated)
     }).then(response => response.json()).then(async response => {
@@ -173,11 +209,15 @@ const update = async () => {
 // REMOVE 
 
 const remove = async () => {
+    const token = localStorage.getItem('token');
+
     await fetch(`${URL}/api/article/${articles.id}`, {
         method: 'DELETE',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+
         }
     }).then(response => response.json()).then(async response => {
         console.log(response);

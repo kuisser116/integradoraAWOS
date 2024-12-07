@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -32,6 +33,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query(value = "SELECT * FROM employee WHERE user = :username OR e_mail = :username", nativeQuery = true)
     Employee findByUser(@Param("username") String username);
+
+    Optional<Employee> findByEMail(String eMail); // Buscar por correo
+    Optional<Employee> findByResetToken(String resetToken); // Buscar por token
 
 
 }

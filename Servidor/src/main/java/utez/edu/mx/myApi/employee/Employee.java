@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import utez.edu.mx.myApi.department.Department;
 import utez.edu.mx.myApi.rol.Rol;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -32,26 +34,37 @@ public class Employee {
     @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
+    @Column(name = "reset_token")
+    private String resetToken; // Token para restablecimiento de contraseña
+
+    @Column(name = "token_expiry_date")
+    private LocalDateTime tokenExpiryDate; // Fecha de expiración del token
+
+
     public Employee() {
     }
 
-    public Employee(String user, String password, String fullName, String eMail) {
+    public Employee(String user, String password, String fullName, String eMail, String resetToken, LocalDateTime tokenExpiryDate) {
         this.user = user;
         this.password = password;
         this.fullName = fullName;
         this.eMail = eMail;
+        this.resetToken = resetToken;
+        this.tokenExpiryDate = tokenExpiryDate;
     }
 
-    public Employee(String user, String password, String fullName, String eMail, Department department, Rol rol) {
+    public Employee(String user, String password, String fullName, String eMail, Department department, Rol rol, String resetToken, LocalDateTime tokenExpiryDate) {
         this.user = user;
         this.password = password;
         this.fullName = fullName;
         this.eMail = eMail;
         this.department = department;
         this.rol = rol;
+        this.resetToken = resetToken;
+        this.tokenExpiryDate = tokenExpiryDate;
     }
 
-    public Employee(long id, String user, String password, String fullName, String eMail, Department department, Rol rol) {
+    public Employee(long id, String user, String password, String fullName, String eMail, Department department, Rol rol, String resetToken, LocalDateTime tokenExpiryDate) {
         this.id = id;
         this.user = user;
         this.password = password;
@@ -59,6 +72,8 @@ public class Employee {
         this.eMail = eMail;
         this.department = department;
         this.rol = rol;
+        this.resetToken = resetToken;
+        this.tokenExpiryDate = tokenExpiryDate;
     }
 
     public long getId() {
@@ -115,5 +130,21 @@ public class Employee {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
+    public LocalDateTime getTokenExpiryDate() {
+        return tokenExpiryDate;
+    }
+
+    public void setTokenExpiryDate(LocalDateTime tokenExpiryDate) {
+        this.tokenExpiryDate = tokenExpiryDate;
     }
 }

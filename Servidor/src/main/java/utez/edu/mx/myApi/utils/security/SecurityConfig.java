@@ -23,16 +23,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf(csrf -> csrf.disable()).authorizeHttpRequests((authz) -> authz
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/**").hasAnyRole("ADMIN", "RESPONSABLE", "CUSTOMER")
-                .anyRequest().authenticated()
-        ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.cors().and().csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers("/auth/**").permitAll() // Permite acceso a cualquier ruta de autenticación
+                        .requestMatchers("/api/employee/email", "/api/password-reset").permitAll() // Permite acceso libre
+                        .requestMatchers("/api/**").hasAnyRole("ADMIN", "RESPONSABLE", "CUSTOMER") // Protege otras rutas con roles
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,5 +47,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+
 }
 

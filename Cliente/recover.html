@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña</title>
+    <link href="./src/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f8f9fa;">
+
+<div class="card" style="width: 400px;">
+    <div class="card-body">
+        <h5 class="card-title text-center">Recuperar Contraseña</h5>
+        <form id="recoverForm">
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-3">Enviar enlace</button>
+        </form>
+
+        <div id="recoverMessage" class="mt-3 text-center"></div>
+    </div>
+</div>
+
+<script src="./src/js/recover.js"></script>
+<script src="./src/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
