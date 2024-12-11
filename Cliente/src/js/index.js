@@ -1,8 +1,19 @@
 // URL base del backend
 const URL = 'http://localhost:8080';
 
+// Verificar si ya existe un token y rol en localStorage
+const token = localStorage.getItem('token'); // Obtener el token
+const role = localStorage.getItem('role');  
+console.log(role); // Obtener el rol
 
-
+// Si el token ya existe y el rol también, redirigir según el rol
+if (token && role) {
+    if (role === 'ROLE_ADMIN') {
+        window.location.href = 'user.html'; // Redirige a la página de admin
+    } else if (role === 'ROLE_RESPONSABLE') {
+        window.location.href = 'article_user.html'; // Redirige a la página de responsable
+    } 
+}
 
 // Función para manejar la autenticación
 const authenticate = async (username, password) => {
@@ -21,7 +32,7 @@ const authenticate = async (username, password) => {
         }
 
         const data = await response.json();
-        localStorage.setItem('token', data.data);
+        localStorage.setItem('token', data.data); // Guarda el token
         
         const userRole = await getUserRole(username);
         if (userRole) {
@@ -84,13 +95,13 @@ const Login = async (event) => {
             setTimeout(() => {
                 switch (userRole) {
                     case 'ROLE_ADMIN':
-                        window.location.href = '../../article.html';
+                        window.location.href = 'user.html';
                         break;
                     case 'ROLE_RESPONSABLE':
-                        window.location.href = '../../article_user.html';
+                        window.location.href = 'article_user.html';
                         break;
                     case 'ROLE_USUARIO':
-                        window.location.href = '../../usuario.html';
+                        window.location.href = 'usuario.html';
                         break;
                     default:
                         alert('Rol no reconocido');

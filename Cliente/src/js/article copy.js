@@ -8,7 +8,7 @@ const checkAdminAccess = () => {
     }
 
     if (role !== 'ROLE_RESPONSABLE') {
-        window.location.href = 'article.html'; // Redirige al login si no es admin
+        window.location.href = 'user.html'; // Redirige al login si no es admin
     }
 };
 
