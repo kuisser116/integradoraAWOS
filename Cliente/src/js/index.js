@@ -1,6 +1,9 @@
 // URL base del backend
 const URL = 'http://localhost:8080';
 
+
+
+
 // Función para manejar la autenticación
 const authenticate = async (username, password) => {
     try {
@@ -18,7 +21,12 @@ const authenticate = async (username, password) => {
         }
 
         const data = await response.json();
-        localStorage.setItem('token', data.data); // Guarda el token
+        localStorage.setItem('token', data.data);
+        
+        const userRole = await getUserRole(username);
+        if (userRole) {
+            localStorage.setItem('role', userRole); // Guarda el rol
+        }
         return true;
     } catch (error) {
         console.error('Error en la autenticación:', error.message);

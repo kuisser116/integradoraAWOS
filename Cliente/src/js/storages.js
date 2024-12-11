@@ -1,9 +1,24 @@
-if (!localStorage.getItem('token')) {
-    window.location.href = 'index.html'; // Redirigir al login si no hay token
-}
+const checkAdminAccess = () => {
+    const token = localStorage.getItem('token'); // Obtener el token
+    const role = localStorage.getItem('role');  
+    console.log(role); // Obtener el rol
 
+    if (!token) {
+        window.location.href = 'index.html'; // Redirige al login si no hay token
+    }
+
+    if (role !== 'ROLE_ADMIN') {
+        window.location.href = 'article_user.html'; // Redirige al login si no es admin
+    }
+};
+
+// Llamar a la función para verificar el acceso solo si se necesita
+checkAdminAccess();
+
+// Función para cerrar sesión
 const logout = () => {
     localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+    localStorage.removeItem('role');  // Elimina el rol del almacenamiento local
     window.location.href = 'index.html'; // Redirige al login
 };
 

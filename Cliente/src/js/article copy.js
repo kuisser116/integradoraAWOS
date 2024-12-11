@@ -7,8 +7,8 @@ const checkAdminAccess = () => {
         window.location.href = 'index.html'; // Redirige al login si no hay token
     }
 
-    if (role !== 'ROLE_ADMIN') {
-        window.location.href = 'article_user.html'; // Redirige al login si no es admin
+    if (role !== 'ROLE_RESPONSABLE') {
+        window.location.href = 'article.html'; // Redirige al login si no es admin
     }
 };
 
