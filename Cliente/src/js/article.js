@@ -10,11 +10,10 @@ const checkAdminAccess = () => {
 
     if (!token) {
         window.location.href = 'index.html'; // Redirige al login si no hay token
-    }
-
-    if (role !== 'ROLE_ADMIN') {
+    }else if(role == 'ROLE_RESPONSABLE'){
         window.location.href = 'article_user.html'; // Redirige al login si no es admin
     }
+
 };
 
 // Llamar a la función para verificar el acceso solo si se necesita

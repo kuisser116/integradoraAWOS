@@ -10,11 +10,10 @@ const checkAdminAccess = () => {
 
     if (!token) {
         window.location.href = 'index.html'; // Redirige al login si no hay token
+    }else if(role == 'ROLE_ADMIN'){
+        window.location.href = 'user.html'; // Redirige al login si no es admin
     }
 
-    if (role !== 'ROLE_RESPONSABLE') {
-        window.location.href = 'article_user.html'; // Redirige al login si no es admin
-    }
 };
 
 // Llamar a la función para verificar el acceso solo si se necesita
@@ -140,7 +139,7 @@ const save = async () => {
         name: document.getElementById('fullName').value,
         description: document.getElementById('eMail').value,
         category: {
-            id: 2
+            id: localStorage.getItem('departmentCategoryId')
         },
         department: {
             id: localStorage.getItem('departmentId')
@@ -200,7 +199,7 @@ const update = async () => {
         name: document.getElementById('u_fullName').value,
         description: document.getElementById('u_eMail').value,
         category: {
-            id: 2
+            id: localStorage.getItem('departmentCategoryId')
         },
         department: {
             id: localStorage.getItem('departmentId')  // Asigna el nombre del departamento desde el localStorage
