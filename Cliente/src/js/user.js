@@ -1,15 +1,17 @@
 const checkAdminAccess = () => {
     const token = localStorage.getItem('token'); // Obtener el token
-    const role = localStorage.getItem('role');  
-    console.log(role); // Obtener el rol
+    const role = localStorage.getItem('role'); 
+    const department = localStorage.getItem('department');
+    console.log('Departamento del usuario:', department);
+    
 
     if (!token) {
         window.location.href = 'index.html'; // Redirige al login si no hay token
-    }
-
-    if (role !== 'ROLE_ADMIN') {
+    }else if(role == 'ROLE_RESPONSABLE'){
         window.location.href = 'article_user.html'; // Redirige al login si no es admin
     }
+
+ 
 };
 
 // Llamar a la función para verificar el acceso solo si se necesita
@@ -17,15 +19,31 @@ checkAdminAccess();
 
 // Función para cerrar sesión
 const logout = () => {
-    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
-    localStorage.removeItem('role');  // Elimina el rol del almacenamiento local
-    window.location.href = 'index.html'; // Redirige al login
+    localStorage.clear(); // Limpia el almacenamiento local
+    // Redirige sin agregar al historial
+    window.location.replace('index.html'); // Redirige al login
 };
 
 const URL = 'http://localhost:8080';
 let storage = [];
 let users = [];
 let rol = [];
+
+
+const displayUserInfo = () => {
+    const userName = localStorage.getItem('username'); // Suponiendo que almacenas el nombre del usuario
+    const userRole = localStorage.getItem('role');
+    console.log(userName);
+    
+    if (userName && userRole) {
+        const userInfoContainer = document.getElementById('user-info');
+        userInfoContainer.innerHTML = `<strong>${userName}</strong> (${userRole.replace('ROLE_', '')})`;
+    }
+};
+
+// Llama a esta función cuando se cargue la página
+window.onload = displayUserInfo;
+
 
 
 
@@ -36,7 +54,7 @@ const loadAllData = async () => {
     await loadRoles(true); // Cargar roles
 };
 
-// OBTENER USUARIOS
+
 
 const findAllUser = async () => {
     const token = localStorage.getItem('token');
@@ -52,6 +70,7 @@ const findAllUser = async () => {
         users = response.data; 
     }).catch(console.log);
 };
+
 
 // OBTENER LOS ALMACENES
 
@@ -138,8 +157,8 @@ const loadTable = async () => {
             <td>${item.rol.name}</td>
             <td>${item.department.name}</td>
             <td class="text-center">
-                <button class="btn btn-outline-danger" data-bs-target="#deleteModal" data-bs-toggle="modal" onclick="findById(${item.id})">Eliminar</button>
-                <button class="btn btn-outline-primary" data-bs-target="#updateModal" data-bs-toggle="modal" onclick="setDataOnForm(${item.id})">Editar</button>
+                <button class="btn btn-danger" data-bs-target="#deleteModal" data-bs-toggle="modal" onclick="findById(${item.id})">Eliminar</button>
+                <button class="btn btn-primary" data-bs-target="#updateModal" data-bs-toggle="modal" onclick="setDataOnForm(${item.id})">Editar</button>
             </td>
         </tr>`;
         }
@@ -302,4 +321,3 @@ const remove = async () => {
         await loadTable();
     }).catch(console.log);
 }
-

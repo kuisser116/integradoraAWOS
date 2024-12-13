@@ -1,10 +1,10 @@
 // URL base del backend
 const URL = 'http://localhost:8080';
 
-// Verificar si ya existe un token y rol en localStorage
+// Verificar si ya existe un token, rol y departamento en localStorage
 const token = localStorage.getItem('token'); // Obtener el token
-const role = localStorage.getItem('role');  
-console.log(role); // Obtener el rol
+const role = localStorage.getItem('role');
+const department = localStorage.getItem('department');
 
 // Si el token ya existe y el rol también, redirigir según el rol
 if (token && role) {
@@ -12,17 +12,16 @@ if (token && role) {
         window.location.href = 'user.html'; // Redirige a la página de admin
     } else if (role === 'ROLE_RESPONSABLE') {
         window.location.href = 'article_user.html'; // Redirige a la página de responsable
-    } 
+    }
 }
 
-// Función para manejar la autenticación
 const authenticate = async (username, password) => {
     try {
         const response = await fetch(`${URL}/auth`, {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",  // Indica que el cuerpo es JSON
-                "Accept": "application/json"         // Espera una respuesta JSON
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             body: JSON.stringify({ user: username, password: password })
         });
@@ -33,11 +32,31 @@ const authenticate = async (username, password) => {
 
         const data = await response.json();
         localStorage.setItem('token', data.data); // Guarda el token
-        
+        localStorage.setItem('username', username); // Guarda el nombre de usuario
+
+        // Obtener y guardar el rol
         const userRole = await getUserRole(username);
         if (userRole) {
             localStorage.setItem('role', userRole); // Guarda el rol
         }
+
+        // Obtener y guardar el departamento
+        const userDepartment = await getUserDepartment(username);
+        if (userDepartment) {
+            localStorage.setItem('department', userDepartment); // Guarda el departamento
+        }
+
+        const userDepartmentId = await getUserDepartmentId(username);
+        if (userDepartmentId) {
+            localStorage.setItem('departmentId', userDepartmentId); // Guarda el departamento
+        }
+
+        const userDepartmentCategoryId = await getUserDepartmentCategoryId(username);
+        if (userDepartmentCategoryId) {
+            localStorage.setItem('departmentCategoryId', userDepartmentCategoryId); // Guarda el departamento
+        }
+
+
         return true;
     } catch (error) {
         console.error('Error en la autenticación:', error.message);
@@ -60,15 +79,82 @@ const getUserRole = async (username) => {
         }
 
         const data = await response.json();
-        console.log('Respuesta del servidor:', data);
         console.log('Rol del usuario:', data.name);
         return data.name; // Devuelve el rol (nombre del rol)
-        
     } catch (error) {
         console.error('Error al obtener el rol del usuario:', error.message);
         return null;
     }
 };
+
+// Función para obtener el departamento del usuario
+const getUserDepartment = async (username) => {
+    try {
+        const response = await fetch(`${URL}/api/employee/${username}/department`, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('No se pudo obtener el departamento del usuario');
+        }
+
+        const data = await response.json();
+        console.log('Departamento del usuario:', data.department);
+        return data.department; // Devuelve el nombre del departamento
+    } catch (error) {
+        console.error('Error al obtener el departamento del usuario:', error.message);
+        return null;
+    }
+};
+
+const getUserDepartmentId = async (username) => {
+    try {
+        const response = await fetch(`${URL}/api/employee/${username}/department/id`, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('No se pudo obtener el id del departamento del usuario');
+        }
+
+        const data = await response.json();
+        console.log('Departamento del usuario:', data.department);
+        return data.department; 
+    } catch (error) {
+        console.error('Error al obtener el departamento del usuario:', error.message);
+        return null;
+    }
+};
+
+const getUserDepartmentCategoryId = async (username) => {
+    try {
+        const response = await fetch(`${URL}/api/employee/${username}/department/id/category`, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('No se pudo obtener el id del departamento del usuario');
+        }
+
+        const data = await response.json();
+        console.log('Departamento del usuario:', data.department);
+        return data.department; 
+    } catch (error) {
+        console.error('Error al obtener el departamento del usuario:', error.message);
+        return null;
+    }
+};
+
+
 
 // Función para manejar el evento de envío del formulario
 const Login = async (event) => {
@@ -87,8 +173,7 @@ const Login = async (event) => {
         loginMessage.textContent = 'Inicio de sesión exitoso';
         loginMessage.classList.add('text-success');
 
-        const userRole = await getUserRole(username);
-
+        const userRole = localStorage.getItem('role');
         if (userRole) {
             console.log('Redirigiendo según el rol:', userRole);
 

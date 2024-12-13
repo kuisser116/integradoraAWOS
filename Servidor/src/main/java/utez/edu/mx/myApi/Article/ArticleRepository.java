@@ -17,4 +17,16 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Modifying
     @Query(value = "DELETE from article where id = :id", nativeQuery = true)
     void deleteById(@Param("id") long id);
+
+
+    // Encuentra artículos por categoría
+    @Query("SELECT a FROM Article a WHERE a.category.id = :categoryId")
+    List<Article> findByCategoryId(@Param("categoryId") long categoryId);
+
+    @Query("SELECT a FROM Article a JOIN a.departments d WHERE a.category.id = :categoryId AND d.id = :departmentId")
+    List<Article> findByCategoryAndDepartment(@Param("categoryId") long categoryId, @Param("departmentId") long departmentId);
+
+
+
+
 }

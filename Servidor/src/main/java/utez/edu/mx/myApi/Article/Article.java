@@ -24,6 +24,10 @@ public class Article {
     @JoinColumn(name = "id_category", nullable = false)
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "id_department", nullable = false)  // Nueva columna para el departamento
+    private Department department;
+
     @ManyToMany(mappedBy = "articles")
     private List<Department> departments;
 
@@ -48,6 +52,14 @@ public class Article {
         this.description = description;
         this.category = category;
         this.departments = departments;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public long getId() {

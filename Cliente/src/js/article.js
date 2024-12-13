@@ -1,7 +1,12 @@
 const checkAdminAccess = () => {
     const token = localStorage.getItem('token'); // Obtener el token
     const role = localStorage.getItem('role');  
-    console.log(role); // Obtener el rol
+    const department = localStorage.getItem('department');
+    const departmentId = localStorage.getItem('departmentId');
+    const departmentCategoryId = localStorage.getItem('departmentCategoryId');
+
+    console.log(departmentCategoryId); // Obtener el rol
+
 
     if (!token) {
         window.location.href = 'index.html'; // Redirige al login si no hay token
@@ -29,12 +34,23 @@ let employees = [];
 let articles = [];
 let employee = {};
 
-// OBTENER CATEGORIAS
 
 
+const displayUserInfo = () => {
+    const userName = localStorage.getItem('username'); // Suponiendo que almacenas el nombre del usuario
+    const userRole = localStorage.getItem('role');
+    console.log(userName);
+    
+    if (userName && userRole) {
+        const userInfoContainer = document.getElementById('user-info');
+        userInfoContainer.innerHTML = `<strong>${userName}</strong> (${userRole.replace('ROLE_', '')})`;
+    }
+};
 
+// Llama a esta función cuando se cargue la página
+window.onload = displayUserInfo;
 
-const findAllCategories = async () => {
+const loadCategories = async () => {
     const token = localStorage.getItem('token');
     await fetch(`${URL}/api/category`, {
         method: 'GET',
@@ -42,71 +58,56 @@ const findAllCategories = async () => {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Bearer ${token}`
-
         }
     }).then(response => response.json()).then(response => {
         console.log(response);
         categories = response.data; 
+        populateCategorySelect(); // Llamar a esta función para cargar las categorías en el select
     }).catch(console.log);
 };
 
-
-
-const loadData = async flag => {
-    await findAllCategories(); 
-    let select = document.getElementById(flag ? 'categories' : 'u_departments'); // Recuperando el select
-    let content = ''; 
-
-    categories.forEach(item => { 
-        content += `<option value="${item.id}">${item.name}</option>`;
+const populateCategorySelect = () => {
+    const categorySelect = document.getElementById('categories');
+    categorySelect.innerHTML = ''; // Limpiar el select antes de llenarlo
+    categories.forEach(category => {
+        categorySelect.innerHTML += `<option value="${category.id}">${category.name}</option>`;
     });
-    select.innerHTML = content;
 };
 
-// OBTENER A LOS USUARIOS
+// Llamar a esta función cuando se cargue la página para cargar las categorías
+window.onload = async () => {
+    await loadCategories();
+    displayUserInfo(); // Mantén la función de mostrar usuario también
+};
 
-const findAllEmployees = async () => {
-    const token = localStorage.getItem('token');
+console.log(localStorage.getItem('token'))
 
-    await fetch(`${URL}/api/employee`, {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": `Bearer ${token}`
-
-        }
-    }).then(response => response.json()).then(response => {
-        console.log(response);
-        employees = response.data;
-    }).catch(console.log);
-}
-
-// OBTENER LOS ARTICULOS
-
-
+// OBTENER ARTICULOS
 const findAllArticles = async () => {
     const token = localStorage.getItem('token');
+    const departmentName = localStorage.getItem('department');  // Obtener el nombre del departamento
 
-    await fetch(`${URL}/api/article`, {
+    await fetch(`${URL}/api/article`, {  // Obtener todos los artículos
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Bearer ${token}`
-
         }
     }).then(response => response.json()).then(response => {
         console.log(response);
-        articles = response.data;
+        // Filtrar artículos que coincidan con el nombre del departamento
+        articles = response.data.filter(article => 
+            article.department.name.trim().toLowerCase() === departmentName.trim().toLowerCase()
+        );
+        
     }).catch(console.log);
-}
+};
 
-//MOSTRAR A LOS USUARIOS EN LA TABLA
-
+// Cargar tabla de artículos
 const loadTable = async () => {
     await findAllArticles();
-    console.log(articles);
+    console.log("Articulos chidos",articles);
     
     let tbody = document.getElementById('tbody');
     let content = ''; 
@@ -117,9 +118,10 @@ const loadTable = async () => {
                         <td>${item.name}</td>
                         <td>${item.description}</td>
                         <td>${item.category.name}</td>
+                        <td>${item.department.name}</td> <!-- Muestra el departamento del artículo -->
                         <td class="text-center">
-                            <button class="btn btn-outline-danger" data-bs-target="#deleteModal" data-bs-toggle="modal" onclick="findById(${item.id})">Eliminar</button>
-                            <button class="btn btn-outline-primary" data-bs-target="#updateModal" data-bs-toggle="modal" onclick="setDataOnForm(${item.id})">Editar</button>
+                            <button class="btn btn-danger" data-bs-target="#deleteModal" data-bs-toggle="modal" onclick="findById(${item.id})">Eliminar</button>
+                            <button class="btn btn-primary" data-bs-target="#updateModal" data-bs-toggle="modal" onclick="setDataOnForm(${item.id})">Editar</button>
                         </td>
                     </tr>`;
     });
@@ -131,15 +133,17 @@ const loadTable = async () => {
     await loadTable();
 })();
 
-// SAVE
-
+// FUNCIONES DE GUARDAR, ACTUALIZAR Y ELIMINAR
 const save = async () => {
     let form = document.getElementById('saveForm');
     article = {
         name: document.getElementById('fullName').value,
         description: document.getElementById('eMail').value,
         category: {
-            id: document.getElementById('categories').value
+            id: localStorage.getItem('departmentCategoryId')
+        },
+        department: {
+            id: localStorage.getItem('departmentId')
         }
     };
 
@@ -151,7 +155,6 @@ const save = async () => {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Bearer ${token}`
-
         },
         body: JSON.stringify(article)
     }).then(response => response.json()).then(async response => {
@@ -160,10 +163,9 @@ const save = async () => {
         form.reset();
         await loadTable();
     }).catch(console.log);
-}
+};
 
 // FIND BY ID
-
 const findById = async id => {
     const token = localStorage.getItem('token');
 
@@ -173,24 +175,24 @@ const findById = async id => {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Bearer ${token}`
-
         }
     }).then(response => response.json()).then(response => {
         console.log(response);
         articles = response.data;
     }).catch(console.log);
-}
+};
 
 // UPDATE
-
 const setDataOnForm = async id => {
     await findById(id);
-    await loadData(false);
+
+   
 
     document.getElementById('u_fullName').value = articles.name;
     document.getElementById('u_eMail').value = articles.description;
-    document.getElementById('u_departments').value = articles.category.id;
-}
+
+
+};
 
 const update = async () => {
     let form = document.getElementById('updateForm');
@@ -198,11 +200,14 @@ const update = async () => {
         name: document.getElementById('u_fullName').value,
         description: document.getElementById('u_eMail').value,
         category: {
-            id: document.getElementById('u_departments').value
+            id: localStorage.getItem('departmentCategoryId')
+        },
+        department: {
+            id: localStorage.getItem('departmentId')  // Asigna el nombre del departamento desde el localStorage
         }
+        
     };
     const token = localStorage.getItem('token');
-
 
     await fetch(`${URL}/api/article/${articles.id}`, {
         method: 'PUT',
@@ -210,7 +215,6 @@ const update = async () => {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Bearer ${token}`
-
         },
         body: JSON.stringify(updated)
     }).then(response => response.json()).then(async response => {
@@ -219,10 +223,9 @@ const update = async () => {
         form.reset();
         await loadTable();
     }).catch(console.log);
-}
+};
 
-// REMOVE 
-
+// REMOVE
 const remove = async () => {
     const token = localStorage.getItem('token');
 
@@ -232,11 +235,10 @@ const remove = async () => {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Bearer ${token}`
-
         }
     }).then(response => response.json()).then(async response => {
         console.log(response);
         articles = {};
         await loadTable();
     }).catch(console.log);
-}
+};

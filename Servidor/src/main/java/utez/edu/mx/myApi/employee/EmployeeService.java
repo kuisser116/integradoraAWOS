@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import utez.edu.mx.myApi.department.Department;
 import utez.edu.mx.myApi.rol.Rol;
 
 import java.sql.SQLException;
@@ -129,6 +130,21 @@ public class EmployeeService {
         // Si no se encuentra, retornar null
         return null;
     }
+
+    public String getDepartmentNameByUser(String username) {
+        return employeeRepository.findDepartmentNameByUsername(username);
+    }
+
+    public String getDepartmentIdByUser(String username) {
+        return employeeRepository.findDepartmentIdByUsername(username);
+    }
+
+    public String getDepartmentCategoryIdByUser(String username) {
+        return employeeRepository.findDepartmentCategoryIdByUsername(username);
+    }
+
+
+
 
 
 }

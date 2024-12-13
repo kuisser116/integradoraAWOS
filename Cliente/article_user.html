@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="./src/css/bootstrap.min.css">
 </head>
 
-<body class=" bg-dark">
+<body class=" bg-clear">
+
+    <div id="user-info" class="text-dark p-2"></div>
+
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestion de articulos</a>
+            <a class="navbar-brand text-dark" href="#">Gestion de articulos</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,15 +27,15 @@
                 
                 </ul>
 
-                <button class="btn btn-outline-light ms-auto" onclick="logout()">Cerrar sesión</button>
+                <button class="btn btn-dark ms-auto" onclick="logout()">Cerrar sesión</button>
 
             </div>
         </div>
     </nav>
     <main class="m-5">
         <section class="d-flex align-items-center">
-            <h3 class="m-0 text-light">Gestión de articulos</h3>
-            <button class="btn btn-outline-light ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadData(true)">Registrar Nuevo Articulo</button>
+            <h3 class="m-0 text-dark">Gestión de articulos</h3>
+            <button class="btn btn-dark ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadData(true)">Registrar Nuevo Articulo</button>
         </section>
         <hr>
         <section class="table_bg">
@@ -44,6 +47,8 @@
                             <th scope="col">Nombre del articulo</th>
                             <th scope="col">Descripcion</th>
                             <th scope="col">categoria</th>
+                            <th scope="col">Almacen</th>
+
                             <th scope="col" class="text-center">#</th>
                         </tr>
                     </thead>

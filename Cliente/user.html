@@ -8,36 +8,46 @@
     <link rel="stylesheet" href="./src/css/bootstrap.min.css">
 </head>
 
-<body class=" bg-dark">
+<body class=" bg-clear">
+   
+    <div id="user-info" class="text-dark p-2"></div>
+
 
     <nav class="navbar navbar-expand-lg navbar-dark">
+        
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestion de usuarios</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            <a class="navbar-brand text-dark " href="#">Gestion de usuarios</a>
+            <button class="navbar-toggler btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse text-dark " id="navbarNav">
                 <ul class="navbar-nav">
                    
                     <li class="nav-item">
-                        <a class="nav-link" href="/storages.html">Gestion de almacenes</a>
+                        <a class="nav-link text-dark " href="/storages.html">Gestion de almacenes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/category.html">Gestion de categorias</a>
+                        <a class="nav-link text-dark " href="/category.html">Gestion de categorias</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark " href="/article.html">Gestion de articulos</a>
                     </li>
                 
                 </ul>
 
-                <button class="btn btn-outline-light ms-auto" onclick="logout()">Cerrar sesión</button>
+               
+
+                <button class="btn btn-dark ms-auto" onclick="logout()">Cerrar sesión</button>
 
             </div>
         </div>
     </nav>
     <main class="m-5">
         <section class="d-flex align-items-center">
-            <h3 class="m-0 text-light">Gestión de usuarios</h3>
-            <button class="btn btn-outline-light ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadAllData()">Registrar Nuevo Usuario</button>
+            <h3 class="m-0 text-dark">Gestión de usuarios</h3>
+            <button class="btn btn-dark ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadAllData()">Registrar Nuevo Usuario</button>
         </section>
         <hr>
         <section class="table_bg">

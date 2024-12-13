@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/article")
 @CrossOrigin(origins = {"*"})
@@ -31,9 +33,14 @@ public class ArticleController {
         return articleService.update(a, id);
     }
 
+
+
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable("id") long id) {
         return articleService.deleteById(id);
     }
+
 
 }

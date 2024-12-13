@@ -28,6 +28,26 @@ public class ArticleService {
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
+
+
+    public List<Article> findByCategoryAndDepartment(int categoryId, int departmentId) {
+        return articleRepository.findByCategoryAndDepartment(categoryId, departmentId);
+    }
+
+
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> findByCategoryId(long categoryId) {
+        Map<String, Object> body = new HashMap<>();
+        List<Article> articles = articleRepository.findByCategoryId(categoryId);
+
+        body.put("message", articles.isEmpty() ? "No se encontraron artículos para esta categoría" : "Operación exitosa");
+        body.put("status", "OK");
+        body.put("code", 200);
+        body.put("data", articles);
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
+
     @Transactional(readOnly = true)
     public ResponseEntity<?> findById(long id) {
         Map<String, Object> body = new HashMap<>();

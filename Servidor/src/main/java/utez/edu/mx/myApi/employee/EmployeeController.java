@@ -3,7 +3,11 @@ package utez.edu.mx.myApi.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import utez.edu.mx.myApi.department.Department;
 import utez.edu.mx.myApi.rol.Rol;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -35,6 +39,60 @@ public class EmployeeController {
             return ResponseEntity.status(500).body("Error interno del servidor");
         }
     }
+
+
+
+    @GetMapping("/{username}/department")
+    public ResponseEntity<?> getDepartmentByUser(@PathVariable("username") String username) {
+        try {
+            String departmentName = employeeService.getDepartmentNameByUser(username);
+            if (departmentName != null) {
+                Map<String, String> response = new HashMap<>();
+                response.put("department", departmentName);
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.status(404).body("Usuario no encontrado o departamento no asignado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno del servidor");
+        }
+    }
+
+    @GetMapping("/{username}/department/id")
+    public ResponseEntity<?> getDepartmentIdByUser(@PathVariable("username") String username) {
+        try {
+            String departmentId = employeeService.getDepartmentIdByUser(username);
+            if (departmentId != null) {
+                Map<String, String> response = new HashMap<>();
+                response.put("department", departmentId);
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.status(404).body("Usuario no encontrado o departamento no asignado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno del servidor");
+        }
+    }
+
+    @GetMapping("/{username}/department/id/category")
+    public ResponseEntity<?> getDepartmentCategoryIdByUser(@PathVariable("username") String username) {
+        try {
+            String categoryId = employeeService.getDepartmentCategoryIdByUser(username);
+            if (categoryId != null) {
+                Map<String, String> response = new HashMap<>();
+                response.put("department", categoryId);
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.status(404).body("Usuario no encontrado o departamento no asignado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno del servidor");
+        }
+    }
+
+
+
+
 
 
 

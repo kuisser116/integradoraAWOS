@@ -23,6 +23,16 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Optional<Employee> findRolByUser(String user);
 
+    // Query para obtener el nombre del departamento por usuario
+    @Query("SELECT e.department.name FROM Employee e WHERE e.user = :username")
+    String findDepartmentNameByUsername(String username);
+
+    @Query("SELECT e.department.id FROM Employee e WHERE e.user = :username")
+    String findDepartmentIdByUsername(String username);
+
+    @Query("SELECT e.department.category.id FROM Employee e WHERE e.user = :username")
+    String findDepartmentCategoryIdByUsername(String username);
+
 
 
     // Buscar usuario por usuario/correo y contraseña

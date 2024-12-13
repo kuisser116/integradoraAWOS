@@ -8,13 +8,16 @@
     <link rel="stylesheet" href="./src/css/bootstrap.min.css">
 </head>
 
-<body class=" bg-dark">
+<body class=" bg-clear">
+
+    <div id="user-info" class="text-dark p-2"></div>
+
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
           
             
-            <a class="navbar-brand" href="#">Gestion de articulos</a>
+            <a class="navbar-brand text-dark" href="#">Gestion de articulos</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -22,26 +25,26 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link " href="/user.html">Gestion de usuarios</a>
+                        <a class="nav-link text-dark" href="/user.html">Gestion de usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/storages.html">Gestion de almacenes</a>
+                        <a class="nav-link text-dark" href="/storages.html">Gestion de almacenes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/category.html">Gestion de categorias</a>
+                        <a class="nav-link text-dark" href="/category.html">Gestion de categorias</a>
                     </li>
                 
                 </ul>
 
-                <button class="btn btn-outline-light ms-auto" onclick="logout()">Cerrar sesión</button>
+                <button class="btn btn-dark ms-auto" onclick="logout()">Cerrar sesión</button>
 
             </div>
         </div>
     </nav>
     <main class="m-5">
         <section class="d-flex align-items-center">
-            <h3 class="m-0 text-light">Gestión de articulos</h3>
-            <button class="btn btn-outline-light ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadData(true)">Registrar Nuevo Articulo</button>
+            <h3 class="m-0 text-dark">Gestión de articulos</h3>
+            <button class="btn btn-dark ms-auto" type="button" data-bs-target="#saveModal" data-bs-toggle="modal" onclick="loadData(true)">Registrar Nuevo Articulo</button>
         </section>
         <hr>
         <section class="table_bg">
@@ -53,6 +56,8 @@
                             <th scope="col">Nombre del articulo</th>
                             <th scope="col">Descripcion</th>
                             <th scope="col">categoria</th>
+                            <th scope="col">Almacen</th>
+
                             <th scope="col" class="text-center">#</th>
                         </tr>
                     </thead>
@@ -80,12 +85,7 @@
                             <label for="eMail"><small>Descripcion</small></label>
                             <input type="text" id="eMail" name="eMail" class="form-control">
                         </div>
-                        <div class="col-12">
-                            <label for="categories"><small>Categoria</small></label>
-                            <select name="categories" id="categories" class="form-select">
-                                
-                            </select>
-                        </div>
+                      
                         <div class="col-12 text-end">
                             <button type="reset" data-bs-dismiss="modal" class="btn btn-outline-secondary">Cerrar</button>
                             <button type="button" data-bs-dismiss="modal" onclick="save()" class="btn btn-outline-success ms-2">Registrar</button>
@@ -112,12 +112,7 @@
                             <label for="u_eMail"><small>Descripcion</small></label>
                             <input type="text" id="u_eMail" name="u_eMail" class="form-control">
                         </div>
-                        <div class="col-12">
-                            <label for="u_departments"><small>Categoria</small></label>
-                            <select name="u_departments" id="u_departments" class="form-select">
-                                
-                            </select>
-                        </div>
+                      
                         <div class="col-12 text-end">
                             <button type="reset" data-bs-dismiss="modal" class="btn btn-outline-secondary">Cerrar</button>
                             <button type="button" data-bs-dismiss="modal" onclick="update()" class="btn btn-outline-primary ms-2">Actualizar</button>

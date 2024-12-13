@@ -29,6 +29,23 @@ let employees = [];
 let articles = [];
 let employee = {};
 
+
+const displayUserInfo = () => {
+    const userName = localStorage.getItem('username'); // Suponiendo que almacenas el nombre del usuario
+    const userRole = localStorage.getItem('role');
+    console.log(userName);
+    
+    if (userName && userRole) {
+        const userInfoContainer = document.getElementById('user-info');
+        userInfoContainer.innerHTML = `<strong>${userName}</strong> (${userRole.replace('ROLE_', '')})`;
+    }
+};
+
+// Llama a esta función cuando se cargue la página
+window.onload = displayUserInfo;
+
+
+
 // OBTENER CATEGORIAS
 
 
@@ -100,8 +117,8 @@ const loadTable = async () => {
                         <td>${item.name}</td>
                         <td>${item.category.name}</td>
                         <td class="text-center">
-                            <button class="btn btn-outline-danger" data-bs-target="#deleteModal" data-bs-toggle="modal" onclick="findById(${item.id})">Eliminar</button>
-                            <button class="btn btn-outline-primary" data-bs-target="#updateModal" data-bs-toggle="modal" onclick="setDataOnForm(${item.id})">Editar</button>
+                            <button class="btn btn-danger" data-bs-target="#deleteModal" data-bs-toggle="modal" onclick="findById(${item.id})">Eliminar</button>
+                            <button class="btn btn-primary" data-bs-target="#updateModal" data-bs-toggle="modal" onclick="setDataOnForm(${item.id})">Editar</button>
                         </td>
                     </tr>`;
     });
